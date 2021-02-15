@@ -18,23 +18,25 @@ namespace S02LayoutView
         public LayoutDesignViewContent()
         {
             this.InitializeComponent();
-
-            rectLayoutDesign.Initialized += LaunchLayoutDesignViewer;
-
-            //LaunchLayoutDesignViewer();
         }
 
         private void LaunchLayoutDesignViewer(object sender, EventArgs e)
         {
             System.Console.WriteLine("LaunchLayoutDesignViewer:  called.");
 
-            Window layoutWindow = Window.GetWindow(rectLayoutDesign);
+            Window layoutWindow = Window.GetWindow(borderLayoutView);
             IntPtr hWnd = new WindowInteropHelper(layoutWindow).EnsureHandle();
 
             string viewExecutablePath = "E:\\Work\\VSSDK.Study\\S02LayoutView\\SampleHelloWorldBuild\\SampleHelloWorld.exe";
-            string commandArguments = String.Format("-parentHWND %d delayed", hWnd);
-            //Process.Start(viewExecutablePath + " " + commandArguments);
-            Process.Start(viewExecutablePath);
+            ProcessStartInfo startInfo = new ProcessStartInfo(viewExecutablePath);
+            string commandArguments = String.Format("-parentHWND {0:d} delayed", hWnd);
+            //startInfo.Arguments = commandArguments;
+            Process.Start(startInfo);
+        }
+
+        private void btnTest_Click(object sender, RoutedEventArgs e)
+        {
+            LaunchLayoutDesignViewer(this, e);
         }
     }
 }
