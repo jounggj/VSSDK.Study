@@ -28,9 +28,9 @@ namespace S02LayoutView
             Log.D(TAG, "LayoutDesignViewContent:  called.");
 
             string viewExecutablePath = "E:\\Work\\VSSDK.Study\\S02LayoutView\\LayoutViewer\\LayoutViewer.exe";
-            unityWindowHost = new UnityHWndHost(viewExecutablePath, "");
-            borderLayoutView.Child = unityWindowHost;
-            Log.D(TAG, "--  after  adding new UnityHWndHost()");
+            //unityWindowHost = new UnityHWndHost(viewExecutablePath, "");
+            //borderLayoutView.Child = unityWindowHost;
+            //Log.D(TAG, "--  after  adding new UnityHWndHost()");
         }
 
         public void TerminateLayoutViewer()
@@ -44,7 +44,22 @@ namespace S02LayoutView
 
         private void borderLayoutView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            Console.WriteLine("borderLayoutView_IsVisibleChanged:  called.");
+            Log.I(TAG, "borderLayoutView_IsVisibleChanged:  called.");
+        }
+
+        private void borderLayoutView_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void borderLayoutView_Initialized(object sender, EventArgs e)
+        {
+
+        }
+
+        private void borderLayoutView_LayoutUpdated(object sender, EventArgs e)
+        {
+
         }
     }
 }
