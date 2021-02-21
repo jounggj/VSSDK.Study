@@ -11,7 +11,7 @@
              x:Name="LayoutDesignViewControl">
     <TabControl x:Name="LayoutEditorView" TabStripPlacement="Bottom" FontSize="9" Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}">
         <TabItem x:Name="tabitemDesign" Header="Design" Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" OpacityMask="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}">
-            <Border x:Name="borderLayoutView" BorderBrush="Black" BorderThickness="1"/>
+            <Border x:Name="borderLayoutView" BorderBrush="Black" BorderThickness="1" IsVisibleChanged="borderLayoutView_IsVisibleChanged"/>
         </TabItem>
         <TabItem x:Name="tabitemXML" Header="XML">
             <TextBox x:Name="tbLayoutXml" TextWrapping="Wrap"/>

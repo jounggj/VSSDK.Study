@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S02LayoutView", "S02LayoutView.csproj", "{44DC12B2-71CC-446F-BCE7-2C06AFE0EC33}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PalantiriBase", "..\..\..\Palantiri\VSProjects\PalantiriBase\PalantiriBase.csproj", "{9822A11D-2CB8-4D96-A9B8-5D9EDC6CEE6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PalantiriBaseNF", "..\..\..\Palantiri\VSProjects\PalantiriBaseNF\PalantiriBaseNF.csproj", "{EA7E4915-232E-4E95-8928-78DE6E19CA7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{44DC12B2-71CC-446F-BCE7-2C06AFE0EC33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44DC12B2-71CC-446F-BCE7-2C06AFE0EC33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44DC12B2-71CC-446F-BCE7-2C06AFE0EC33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9822A11D-2CB8-4D96-A9B8-5D9EDC6CEE6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9822A11D-2CB8-4D96-A9B8-5D9EDC6CEE6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9822A11D-2CB8-4D96-A9B8-5D9EDC6CEE6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9822A11D-2CB8-4D96-A9B8-5D9EDC6CEE6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA7E4915-232E-4E95-8928-78DE6E19CA7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA7E4915-232E-4E95-8928-78DE6E19CA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA7E4915-232E-4E95-8928-78DE6E19CA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA7E4915-232E-4E95-8928-78DE6E19CA7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

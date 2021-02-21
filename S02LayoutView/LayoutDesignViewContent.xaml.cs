@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Diagnostics;
+using Palantiri.IO;
+using Palantiri.Debug;
 
 namespace S02LayoutView
 {
@@ -12,43 +14,37 @@ namespace S02LayoutView
     /// </summary>
     public partial class LayoutDesignViewContent : UserControl
     {
+        private const string TAG = "LayoutViewer";
+        private UnityHWndHost unityWindowHost = null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="S02FirstWindow.LayoutDesignViewContent"/> class.
         /// </summary>
         public LayoutDesignViewContent()
         {
             this.InitializeComponent();
+
+            Log.Open(Log.LogTarget.File, "E:\\vsix-view.log");
+            Log.D(TAG, "LayoutDesignViewContent:  called.");
+
+            string viewExecutablePath = "E:\\Work\\VSSDK.Study\\S02LayoutView\\LayoutViewer\\LayoutViewer.exe";
+            unityWindowHost = new UnityHWndHost(viewExecutablePath, "");
+            borderLayoutView.Child = unityWindowHost;
+            Log.D(TAG, "--  after  adding new UnityHWndHost()");
         }
 
-        private Process process = null;
-
-        private void LaunchLayoutDesignViewer(object sender, EventArgs e)
+        public void TerminateLayoutViewer()
         {
-            System.Console.WriteLine("LaunchLayoutDesignViewer:  called.");
-
-            Window layoutWindow = Window.GetWindow(borderLayoutView);
-            //IntPtr hWnd = new WindowInteropHelper(layoutWindow).EnsureHandle();
-            IntPtr hWnd = new WindowInteropHelper(layoutWindow).Handle;
-
-            string viewExecutablePath = "E:\\Work\\VSSDK.Study\\S02LayoutView\\SampleHelloWorldBuild\\SampleHelloWorld.exe";
-            //string commandArguments = String.Format("-parentHWND {0:d} delayed", hWnd);
-            string commandArguments = String.Format("-parentHWND {0}", hWnd);
-
-            process = new Process();
-            process.StartInfo.FileName = viewExecutablePath;
-            process.StartInfo.Arguments = commandArguments;
-            process.StartInfo.UseShellExecute = true;
-            process.StartInfo.CreateNoWindow = true;
-            process.Start();
-            process.WaitForInputIdle();
+            unityWindowHost.TerminateLayoutViewer();
         }
 
         private void btnTest_Click(object sender, RoutedEventArgs e)
         {
-            //LaunchLayoutDesignViewer(this, e);
+        }
 
-            string viewExecutablePath = "E:\\Work\\VSSDK.Study\\S02LayoutView\\SampleHelloWorldBuild\\SampleHelloWorld.exe";
-            borderLayoutView.Child = new UnityHWndHost(viewExecutablePath, "");
+        private void borderLayoutView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Console.WriteLine("borderLayoutView_IsVisibleChanged:  called.");
         }
     }
 }

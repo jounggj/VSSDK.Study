@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Interop;
+using Palantiri.IO;
+using Palantiri.Debug;
 
 namespace S02LayoutView
 {
@@ -22,10 +24,16 @@ namespace S02LayoutView
         internal static extern IntPtr PostMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
         internal const UInt32 WM_CLOSE = 0x0010;
 
+        private const string TAG = "UnityHWndHost";
         private string programName;
         private string arguments;
-        private Process process = null;
+
+        private AnonPipeServer pipeServer = null;
+        private Process clientProcess = null;
         private IntPtr unityHWND = IntPtr.Zero;
+
+        private Timer aTimer = null;
+        private int sendCount = 0;
 
         public UnityHWndHost(string programName, string arguments = "")
         {
@@ -36,14 +44,38 @@ namespace S02LayoutView
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             Debug.WriteLine("Going to launch Unity at: " + this.programName + " " + this.arguments);
-            process = new Process();
-            process.StartInfo.FileName = programName;
-            process.StartInfo.Arguments = arguments + (arguments.Length == 0 ? "" : " ") + "-parentHWND " + hwndParent.Handle;
-            process.StartInfo.UseShellExecute = true;
-            process.StartInfo.CreateNoWindow = true;
+            Log.D(TAG, "BuildWindowCore:  called.");
 
-            process.Start();
-            process.WaitForInputIdle();
+            pipeServer = new AnonPipeServer();
+            bool ret = pipeServer.Create();
+            if (!ret)
+            {
+                Log.E(TAG, "new AnonPipeserver() failed!!");
+                return new HandleRef(this, unityHWND);
+            }
+            Log.D(TAG, "--  after  new AnonPipeServer():  clientHandle = " + pipeServer.GetClientHandleAsString());
+
+            Process client = new Process();
+            try
+            {
+                string clientHandle = pipeServer.GetClientHandleAsString();
+                //pipeServer.DisposeLocalCopyOfClientHandle();
+
+                client.StartInfo.FileName = this.programName;
+                client.StartInfo.Arguments = String.Format("{0} -parentHWND {1} -pipe {2}",
+                    arguments, hwndParent.Handle, pipeServer.GetClientHandleAsString());
+                client.StartInfo.UseShellExecute = false;
+                client.StartInfo.CreateNoWindow = true;
+                client.Start();
+                client.WaitForInputIdle();
+            }
+            catch (Exception exception)
+            {
+                Log.E(TAG, "creating andlaunching client failed:  " + exception.Message);
+                return new HandleRef(this, unityHWND);
+            }
+            clientProcess = client;
+            Log.D(TAG, "Client launched.");
 
             int repeat = 50;
             while (unityHWND == IntPtr.Zero && repeat-- > 0)
@@ -70,6 +102,22 @@ namespace S02LayoutView
                 Debug.WriteLine("Unity initialized!");
             }
 
+            try
+            {
+                aTimer = new Timer(
+                    (object sender) =>
+                    {
+                        string message = String.Format("Message-{0}", sendCount++);
+                        pipeServer?.WriteLine(message);
+                        Log.D(TAG, "Message sent:  " + message);
+                    },
+                    this, 10000, 2000);
+            }
+            catch (Exception e)
+            {
+                Log.E(TAG, "creating Timer failed:  " + e.Message);
+            }
+
             return new HandleRef(this, unityHWND);
         }
 
@@ -87,15 +135,26 @@ namespace S02LayoutView
             PostMessage(unityHWND, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
 
             int i = 30;
-            while (!process.HasExited)
+            while (!clientProcess.HasExited)
             {
                 if (--i < 0)
                 {
                     Debug.WriteLine("Process not dead yet, killing...");
-                    process.Kill();
+                    clientProcess.Kill();
                 }
                 Thread.Sleep(100);
             }
+        }
+
+        public void TerminateLayoutViewer()
+        {
+            pipeServer?.WriteLine("Terminate");
+            clientProcess.WaitForExit();
+            pipeServer?.Destroy();
+            pipeServer = null;
+            clientProcess.Close();
+            clientProcess = null;
+            Log.D(TAG, "Terminated client.");
         }
     }
 }
