@@ -62,9 +62,9 @@ namespace S02LayoutView
                 //pipeServer.DisposeLocalCopyOfClientHandle();
 
                 client.StartInfo.FileName = this.programName;
-                client.StartInfo.Arguments = String.Format("{0} -parentHWND {1} -pipe {2}",
+                client.StartInfo.Arguments = String.Format("{0} -parentHWND {1} delayed -pipe {2}",
                     arguments, hwndParent.Handle, pipeServer.GetClientHandleAsString());
-                client.StartInfo.UseShellExecute = false;
+                client.StartInfo.UseShellExecute = true;
                 client.StartInfo.CreateNoWindow = true;
                 client.Start();
                 client.WaitForInputIdle();
@@ -102,21 +102,21 @@ namespace S02LayoutView
                 Debug.WriteLine("Unity initialized!");
             }
 
-            try
-            {
-                aTimer = new Timer(
-                    (object sender) =>
-                    {
-                        string message = String.Format("Message-{0}", sendCount++);
-                        pipeServer?.WriteLine(message);
-                        Log.D(TAG, "Message sent:  " + message);
-                    },
-                    this, 10000, 2000);
-            }
-            catch (Exception e)
-            {
-                Log.E(TAG, "creating Timer failed:  " + e.Message);
-            }
+            //try
+            //{
+            //    aTimer = new Timer(
+            //        (object sender) =>
+            //        {
+            //            string message = String.Format("Message-{0}", sendCount++);
+            //            pipeServer?.WriteLine(message);
+            //            Log.D(TAG, "Message sent:  " + message);
+            //        },
+            //        this, 10000, 2000);
+            //}
+            //catch (Exception e)
+            //{
+            //    Log.E(TAG, "creating Timer failed:  " + e.Message);
+            //}
 
             return new HandleRef(this, unityHWND);
         }
@@ -144,6 +144,12 @@ namespace S02LayoutView
                 }
                 Thread.Sleep(100);
             }
+        }
+
+        public bool WriteLine(string message)
+        {
+            if (pipeServer == null) return false;
+            return pipeServer.WriteLine(message);
         }
 
         public void TerminateLayoutViewer()
