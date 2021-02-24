@@ -44,51 +44,51 @@ namespace S02LayoutView
 
         private void borderLayoutView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            Log.I(TAG, "borderLayoutView_IsVisibleChanged:  called.");
+            //Log.I(TAG, "borderLayoutView_IsVisibleChanged:  called.");
             Border border = borderLayoutView;
             unityWindowHost?.WriteLine(String.Format("IsVisible {0}",
                 border.IsVisible.ToString()));
-            //Log.I(TAG, "--  border.IsVisible = " + border.IsVisible.ToString());
+            Log.I(TAG, "--  border.IsVisible = " + border.IsVisible.ToString());
         }
 
         private void borderLayoutView_GotFocus(object sender, RoutedEventArgs e)
         {
-            Log.I(TAG, "borderLayoutView_GotFocus:  called.");
+            //Log.I(TAG, "borderLayoutView_GotFocus:  called.");
             Border border = borderLayoutView;
             unityWindowHost?.WriteLine(String.Format("IsFocused {0}",
                 border.IsFocused.ToString()));
-            //Log.I(TAG, "--  border.IsFocused = " + border.IsFocused.ToString());
+            Log.I(TAG, "--  border.IsFocused = " + border.IsFocused.ToString());
         }
 
         private void borderLayoutView_Initialized(object sender, EventArgs e)
         {
-            Log.I(TAG, "borderLayoutView_Initialized:  called.");
+            //Log.I(TAG, "borderLayoutView_Initialized:  called.");
             Border border = borderLayoutView;
             unityWindowHost?.WriteLine(String.Format("IsInitialized {0}",
                 border.IsInitialized.ToString()));
-            //Log.I(TAG, "--  border.IsInitialized = " + border.IsInitialized.ToString());
+            Log.I(TAG, "--  border.IsInitialized = " + border.IsInitialized.ToString());
         }
 
         private void borderLayoutView_LayoutUpdated(object sender, EventArgs e)
         {
-            Log.I(TAG, "borderLayoutView_LayoutUpdated:  called.");
+            //Log.I(TAG, "borderLayoutView_LayoutUpdated:  called.");
             Border border = borderLayoutView;
             unityWindowHost?.WriteLine(String.Format("ActualSize {0} {1}",
                 border.ActualWidth, border.ActualHeight));
-            //Log.I(TAG, "--  border.ActualWidth  = " + border.ActualWidth);
-            //Log.I(TAG, "--  border.ActualHeight = " + border.ActualHeight);
+            Log.I(TAG, "--  border.ActualWidth  = " + border.ActualWidth);
+            Log.I(TAG, "--  border.ActualHeight = " + border.ActualHeight);
         }
 
         private void borderLayoutView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Log.I(TAG, "borderLayoutView_SizeChanged:  called.");
+            //Log.I(TAG, "borderLayoutView_SizeChanged:  called.");
             Border border = borderLayoutView;
             unityWindowHost?.WriteLine(String.Format("SizeChanged {0} {1}",
                 e.NewSize.Width, e.NewSize.Height));
-            //Log.I(TAG, "--  e.PreviousSize.Width    = " + e.PreviousSize.Width);
-            //Log.I(TAG, "--  e.PreviousSize.Height   = " + e.PreviousSize.Height);
-            //Log.I(TAG, "--  e.NewSize.Width         = " + e.NewSize.Width);
-            //Log.I(TAG, "--  e.NewSize.Height        = " + e.NewSize.Height);
+            Log.I(TAG, "--  e.PreviousSize.Width    = " + e.PreviousSize.Width);
+            Log.I(TAG, "--  e.PreviousSize.Height   = " + e.PreviousSize.Height);
+            Log.I(TAG, "--  e.NewSize.Width         = " + e.NewSize.Width);
+            Log.I(TAG, "--  e.NewSize.Height        = " + e.NewSize.Height);
         }
     }
 }

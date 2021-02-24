@@ -62,8 +62,10 @@ namespace S02LayoutView
                 //pipeServer.DisposeLocalCopyOfClientHandle();
 
                 client.StartInfo.FileName = this.programName;
-                client.StartInfo.Arguments = String.Format("{0} -parentHWND {1} delayed -pipe {2}",
-                    arguments, hwndParent.Handle, pipeServer.GetClientHandleAsString());
+                client.StartInfo.Arguments = arguments;
+                if (arguments.Length > 0) client.StartInfo.Arguments += " ";
+                client.StartInfo.Arguments += String.Format("-parentHWND {0} delayed -pipe {1}",
+                    hwndParent.Handle, pipeServer.GetClientHandleAsString());
                 client.StartInfo.UseShellExecute = true;
                 client.StartInfo.CreateNoWindow = true;
                 client.Start();
