@@ -46,8 +46,10 @@ namespace S02LayoutView
         {
             //Log.I(TAG, "borderLayoutView_IsVisibleChanged:  called.");
             Border border = borderLayoutView;
-            unityWindowHost?.WriteLine(String.Format("IsVisible {0}",
-                border.IsVisible.ToString()));
+            //unityWindowHost?.WriteLine(String.Format("IsVisible {0}",
+            //    border.IsVisible.ToString()));
+            if (border.IsVisible) unityWindowHost?.ActivateUnityWindow();
+            else unityWindowHost?.DeactivateUnityWindow();
             Log.I(TAG, "--  border.IsVisible = " + border.IsVisible.ToString());
         }
 
